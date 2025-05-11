@@ -33,16 +33,27 @@ SPDX-License-Identifier: MIT
 /* === Private function declarations =============================================================================== */
 
 /**
- * @brief Funcion para agregar campos con formato json a un string, el ultimo elemento es una ',' por lo que debe ser
- * reemplazada externamente por el retorno de carro.
+ * @brief Funcion para agregar campos de tipo char con formato json a un string, el ultimo elemento es una ',' por lo
+ * que debe ser reemplazada externamente por el retorno de carro.
  *
  * @param campo //!< Nombre del campo.
  * @param valor //!< Valor del campo.
  * @param buffer //!< Puntero al string donde se almacena el json.
  * @param disponible //!< Espacio disponible del Srting al que se le agregan el campo.
- * @return int
+ * @return int //!< Devuelve un entero, si es negativo entonces no se pudo serializar.
  */
 static int SerializarCadena(const char * campo, const char * valor, char * buffer, uint32_t disponible);
+
+/**
+ * @brief Funcion para agregar campos de tipo uint32_t con formato json a un string, el ultimo elemento es una ',' por
+ * lo que debe ser reemplazada externamente por el retorno de carro.
+ * @param campo //!< Nombre del campo.
+ * @param valor //!< Valor del campo
+ * @param buffer //!< Puntero al string donde se almacena el json.
+ * @param disponible //!< Espacio disponible del Srting al que se le agregan el campo.
+ * @return int //!< Devuelve un entero, si es negativo entonces no se pudo serializar.
+ */
+static int SerializarNumero(const char * campo, uint32_t valor, char * buffer, uint32_t disponible);
 
 /* === Private variable definitions ================================================================================ */
 
@@ -54,14 +65,14 @@ int SerializarCadena(const char * campo, const char * valor, char * buffer, uint
     return snprintf(buffer, disponible, "\"%s\":\"%s\",", campo, valor);
 }
 
+int SerializarNumero(const char * campo, uint32_t valor, char * buffer, uint32_t disponible) {
+    return snprintf(buffer, disponible, "\"%s\":\"%u\",", campo, valor);
+};
 /* === Public function definitions ================================================================================= */
 
 int Serializar(alumno_p alumno, char * puntero, uint32_t size) {
     int error;        //!< Variable con el resultado de la serializacion de cada cadena.
     int escritos = 1; //!< Variable para llevar la cuenta de caracteres escritos.
-    char documento[10];
-
-    snprintf(documento, sizeof(documento), "%u", alumno->documento);
 
     puntero[0] = '{';
     puntero++;
@@ -79,7 +90,7 @@ int Serializar(alumno_p alumno, char * puntero, uint32_t size) {
     escritos += error;
 
     puntero += error;
-    error = SerializarCadena("documento", documento, puntero, size - escritos);
+    error = SerializarNumero("documento", alumno->documento, puntero, size - escritos);
     if (error < 0) {
         return -1;
     }
