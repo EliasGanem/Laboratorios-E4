@@ -1,2 +1,2 @@
-# Electrónica 4 - Laboratorio 2
+# Laboratorios Electrónica 4 2025
 ## Ganem, Elías

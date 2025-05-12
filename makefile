@@ -4,6 +4,7 @@ INC_DIR = ./inc
 OUT_DIR = ./build
 OBJ_DIR = $(OUT_DIR)/obj
 BIN_DIR = $(OUT_DIR)/bin
+DOC_DIR = $(OUT_DIR)/doc
 
 SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES =$(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
@@ -25,3 +26,7 @@ clean:
 
 info:
 	echo "OBJET FILES =$(OBJ_FILES)"
+
+doc:
+	@mkdir -p $(DOC_DIR)
+	@doxygen doxyfile

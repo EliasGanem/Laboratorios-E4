@@ -33,7 +33,11 @@ SPDX-License-Identifier: MIT
 /* === Private function declarations =============================================================================== */
 
 /* === Private variable definitions ================================================================================ */
-static const struct alumno_s yo = {.nombre = "Elías", .apellido = "Ganem", .documento = 43499611};
+static const struct alumno_s yo = {
+    .nombre = "Elías",
+    .apellido = "Ganem",
+    .documento = 43499611,
+};
 
 /* === Public variable definitions ================================================================================= */
 
