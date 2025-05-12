@@ -8,7 +8,9 @@ DOC_DIR = $(OUT_DIR)/doc
 
 SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES =$(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
-  
+
+CFLAGS = -pedantic
+
 -include $(OBJ_DIR)/*.d
 
 all: $(OBJ_FILES)
@@ -19,7 +21,7 @@ all: $(OBJ_FILES)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo "Compiling $< to $@"
 	@mkdir -p $(OBJ_DIR)
-	@gcc -o $@ -c $< $(foreach DIR, $(INC_DIR), -I $(DIR)) -MMD
+	@gcc $(CFLAGS) -o $@ -c $< $(foreach DIR, $(INC_DIR), -I $(DIR)) -MMD
 
 clean:
 	@rm -rf $(OUT_DIR)

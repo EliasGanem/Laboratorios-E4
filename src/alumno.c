@@ -67,7 +67,7 @@ int SerializarCadena(const char * campo, const char * valor, char * buffer, uint
 
 int SerializarNumero(const char * campo, uint32_t valor, char * buffer, uint32_t disponible) {
     return snprintf(buffer, disponible, "\"%s\":\"%u\",", campo, valor);
-};
+}
 /* === Public function definitions ================================================================================= */
 
 int Serializar(alumno_p alumno, char * puntero, uint32_t size) {
@@ -77,30 +77,36 @@ int Serializar(alumno_p alumno, char * puntero, uint32_t size) {
     puntero[0] = '{';
     puntero++;
     error = SerializarCadena("nombre", alumno->nombre, puntero, size - escritos);
-    if (error < 0) {
+    if (error < 0 || error >= (size - escritos)) {
         return -1;
     }
     escritos += error;
 
     puntero += error;
     error = SerializarCadena("apellido", alumno->apellido, puntero, size - escritos);
-    if (error < 0) {
+    if (error < 0 || error >= (size - escritos)) {
         return -1;
     }
     escritos += error;
 
     puntero += error;
     error = SerializarNumero("documento", alumno->documento, puntero, size - escritos);
-    if (error < 0) {
+    if (error < 0 || error >= (size - escritos)) {
         return -1;
     }
+    escritos += error;
 
     puntero += (error - 1);
     *puntero = '}';
+
+    if ((size - escritos) < 1) {
+        return -1;
+    }
+
     puntero++;
     *puntero = '\n';
 
-    return error;
+    return (escritos + 1);
 }
 
 /* === End of documentation ======================================================================================== */

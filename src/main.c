@@ -52,6 +52,8 @@ int main(void) {
 
     if (resultado > 0) {
         printf("Serializado: %s\n", cadena);
+        printf("La cantidad de caracteres escritos es %i y los sobrantes son %li\n", resultado,
+               (sizeof(cadena) - resultado));
     } else {
         printf("Error al serializar\n");
     }
