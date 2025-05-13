@@ -23,12 +23,30 @@ SPDX-License-Identifier: MIT
 
 /* === Headers files inclusions ==================================================================================== */
 
+#include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 #include "alumno.h"
+#include "config.h"
 
 /* === Macros definitions ========================================================================================== */
 
+#ifndef ALUMNOS_MAX_INSTANCIAS
+#define ALUMNOS_MAX_INSTANCIAS 2 //!< Cantidad máxima de alumnos
+#endif
+
 /* === Private data type declarations ============================================================================== */
+
+//! Estructura que representa el estado de un alumno
+struct alumno_s {
+    char nombre[20];    //!< Nombre del alumno
+    char apellido[20];  //!< Apellido del alumno
+    uint32_t documento; //!< Número de documento del alumno
+#ifndef USAR_MEMORIA_DINAMICA
+    bool ocupado; //!< Indica si la instancia está ocupada
+#endif
+};
 
 /* === Private function declarations =============================================================================== */
 
@@ -55,22 +73,67 @@ static int SerializarCadena(const char * campo, const char * valor, char * buffe
  */
 static int SerializarNumero(const char * campo, uint32_t valor, char * buffer, uint32_t disponible);
 
+/**
+ * @brief Funcion para crear instancia de alumnos en caso de NO usar memoria dinamica.
+ *
+ * @return alumno_p //!< Devuelve NULL en caso de no tener espacio, en caso contrario devuelve la referencia del alumno
+ * disponible
+ */
+static alumno_p CrearInstancia();
+
 /* === Private variable definitions ================================================================================ */
+
+//! Array de alumnos
+static struct alumno_s instancias[ALUMNOS_MAX_INSTANCIAS] = {0};
 
 /* === Public variable definitions ================================================================================= */
 
 /* === Private function definitions ================================================================================ */
 
-int SerializarCadena(const char * campo, const char * valor, char * buffer, uint32_t disponible) {
+static int SerializarCadena(const char * campo, const char * valor, char * buffer, uint32_t disponible) {
     return snprintf(buffer, disponible, "\"%s\":\"%s\",", campo, valor);
 }
 
-int SerializarNumero(const char * campo, uint32_t valor, char * buffer, uint32_t disponible) {
+static int SerializarNumero(const char * campo, uint32_t valor, char * buffer, uint32_t disponible) {
     return snprintf(buffer, disponible, "\"%s\":\"%u\",", campo, valor);
 }
+
+static alumno_p CrearInstancia() {
+    alumno_p self = NULL; //!< Referencia al alumno a crear
+    int i;
+
+    for (i = 0; i < ALUMNOS_MAX_INSTANCIAS; i++) {
+        if (!instancias[i].ocupado) {
+            instancias[i].ocupado = true;
+            self = &instancias[i];
+            break;
+        }
+    }
+
+    return self;
+}
+
 /* === Public function definitions ================================================================================= */
 
-int Serializar(alumno_p alumno, char * puntero, uint32_t size) {
+alumno_p AlumnoCrear(char * nombre, char * apellido, uint32_t dni) {
+    alumno_p self; //!< Referencia al alumno a crear
+
+#ifndef USAR_MEMORIA_DINAMICA
+    self = malloc(sizeof(struct alumno_s));
+#else
+    self = CrearInstancia();
+#endif
+
+    if (self != NULL) {
+        strncpy(self->nombre, nombre, sizeof(self->nombre) - 1);
+        strncpy(self->apellido, nombre, sizeof(self->apellido) - 1);
+        self->documento = dni;
+    }
+
+    return self;
+}
+
+int AlumnoSerializar(alumno_p alumno, char * puntero, uint32_t size) {
     int error;        //!< Variable con el resultado de la serializacion de cada cadena.
     int escritos = 1; //!< Variable para llevar la cuenta de caracteres escritos.
 
