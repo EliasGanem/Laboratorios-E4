@@ -18,7 +18,7 @@ SPDX-License-Identifier: MIT
 *********************************************************************************************************************/
 
 /** @file alumno.c
- ** @brief Codigo duente del modulo alumno para el laboratorio 2 - Electrónica 4 2025
+ ** @brief Codigo duente del modulo alumno para los laboratorios - Electrónica 4 2025
  **/
 
 /* === Headers files inclusions ==================================================================================== */
@@ -98,6 +98,7 @@ static int SerializarNumero(const char * campo, uint32_t valor, char * buffer, u
     return snprintf(buffer, disponible, "\"%s\":\"%u\",", campo, valor);
 }
 
+#ifndef USAR_MEMORIA_DINAMICA
 static alumno_p CrearInstancia() {
     alumno_p self = NULL; //!< Referencia al alumno a crear
     int i;
@@ -112,13 +113,14 @@ static alumno_p CrearInstancia() {
 
     return self;
 }
+#endif
 
 /* === Public function definitions ================================================================================= */
 
 alumno_p AlumnoCrear(char * nombre, char * apellido, uint32_t dni) {
     alumno_p self; //!< Referencia al alumno a crear
 
-#ifndef USAR_MEMORIA_DINAMICA
+#ifdef USAR_MEMORIA_DINAMICA
     self = malloc(sizeof(struct alumno_s));
 #else
     self = CrearInstancia();
@@ -126,7 +128,7 @@ alumno_p AlumnoCrear(char * nombre, char * apellido, uint32_t dni) {
 
     if (self != NULL) {
         strncpy(self->nombre, nombre, sizeof(self->nombre) - 1);
-        strncpy(self->apellido, nombre, sizeof(self->apellido) - 1);
+        strncpy(self->apellido, apellido, sizeof(self->apellido) - 1);
         self->documento = dni;
     }
 
@@ -136,6 +138,10 @@ alumno_p AlumnoCrear(char * nombre, char * apellido, uint32_t dni) {
 int AlumnoSerializar(alumno_p alumno, char * puntero, uint32_t size) {
     int error;        //!< Variable con el resultado de la serializacion de cada cadena.
     int escritos = 1; //!< Variable para llevar la cuenta de caracteres escritos.
+
+    if (alumno == NULL) {
+        return -1;
+    }
 
     puntero[0] = '{';
     puntero++;

@@ -44,15 +44,48 @@ int main(void) {
     int resultado;
 
     alumno_p yo = AlumnoCrear("Elías", "Ganem", 43499611);
+    if (yo != NULL) {
+        resultado = AlumnoSerializar(yo, cadena, sizeof(cadena));
 
-    resultado = AlumnoSerializar(yo, cadena, sizeof(cadena));
-
-    if (resultado > 0) {
-        printf("Serializado: %s\n", cadena);
-        printf("La cantidad de caracteres escritos es %i y los sobrantes son %li\n", resultado,
-               (sizeof(cadena) - resultado));
+        if (resultado > 0) {
+            printf("Serializado: %s", cadena);
+            printf("La cantidad de caracteres escritos es %i y los sobrantes son %li\n\n", resultado,
+                   (sizeof(cadena) - resultado));
+        } else {
+            printf("Error al serializar\n");
+        }
     } else {
-        printf("Error al serializar\n");
+        printf("Error la referencia es nulo\n");
+    }
+
+    alumno_p el = AlumnoCrear("Pepito", "Grillo", 43567890);
+    if (el != NULL) {
+        resultado = AlumnoSerializar(el, cadena, sizeof(cadena));
+
+        if (resultado > 0) {
+            printf("Serializado: %s", cadena);
+            printf("La cantidad de caracteres escritos es %i y los sobrantes son %li\n\n", resultado,
+                   (sizeof(cadena) - resultado));
+        } else {
+            printf("Error al serializar\n");
+        }
+    } else {
+        printf("Error la referencia es nula\n");
+    }
+
+    alumno_p ella = AlumnoCrear("Soledad", "Gricelda", 43824600);
+    if (ella != NULL) {
+        resultado = AlumnoSerializar(ella, cadena, sizeof(cadena));
+
+        if (resultado > 0) {
+            printf("Serializado: %s", cadena);
+            printf("La cantidad de caracteres escritos es %i y los sobrantes son %li\n\n", resultado,
+                   (sizeof(cadena) - resultado));
+        } else {
+            printf("Error al serializar\n");
+        }
+    } else {
+        printf("Error la referencia es nula\n");
     }
 
     return 0;
