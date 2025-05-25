@@ -25,6 +25,7 @@ SPDX-License-Identifier: MIT
 
 #include <stdio.h>
 #include "alumno.h"
+#include "calculadora.h"
 
 /* === Macros definitions ========================================================================================== */
 
@@ -42,6 +43,7 @@ SPDX-License-Identifier: MIT
 int main(void) {
     char cadena[100];
     int resultado;
+    bool exito = false;
 
     alumno_p yo = AlumnoCrear("Elías", "Ganem", 43499611);
     if (yo != NULL) {
@@ -86,6 +88,22 @@ int main(void) {
         }
     } else {
         printf("Error la referencia es nula\n");
+    }
+
+    printf("\n-------Prueba de la Calculadora-------\n");
+
+    resultado = 0;
+
+    calculadora_p calculadora = CalculadoraCrear();
+    if (calculadora) {
+        exito = CalculadoraAnadirOperacion(calculadora, '+', OperacionSuma);
+        if (!exito) {
+            printf("ERROR al añadir la operacionSuma\n");
+        }
+        resultado = CalcualdoraCalcular(calculadora, "2+4");
+        printf("El resultado de 2+4 es: %i\n", resultado);
+    } else {
+        printf("ERROR");
     }
 
     return 0;
