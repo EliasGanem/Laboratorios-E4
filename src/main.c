@@ -33,17 +33,31 @@ SPDX-License-Identifier: MIT
 
 /* === Private function declarations =============================================================================== */
 
+static int OperacionProducto(int operando1, int opernado2);
+
+static int OperacionDivision(int operando1, int opernado2);
+
 /* === Private variable definitions ================================================================================ */
 
 /* === Public variable definitions ================================================================================= */
 
 /* === Private function definitions ================================================================================ */
 
+static int OperacionProducto(int a, int b) {
+    return (a * b);
+}
+
+static int OperacionDivision(int a, int b) {
+    return (a / b);
+}
+
 /* === Public function implementation ============================================================================== */
 int main(void) {
     char cadena[100];
     int resultado;
     bool exito = false;
+    char suma[4] = "2+5", resta[] = "2-4", producto[] = "3*15", division[] = "10/2";
+    char operador_suma = '+', operador_resta = '-', operador_producto = '*', operador_cociente = '/';
 
     alumno_p yo = AlumnoCrear("Elías", "Ganem", 43499611);
     if (yo != NULL) {
@@ -96,14 +110,40 @@ int main(void) {
 
     calculadora_p calculadora = CalculadoraCrear();
     if (calculadora) {
-        exito = CalculadoraAnadirOperacion(calculadora, '+', OperacionSuma);
+        exito = CalculadoraAnadirOperacion(calculadora, operador_suma, OperacionSuma);
         if (!exito) {
-            printf("ERROR al añadir la operacionSuma\n");
+            printf("ERROR al añadir la operacion Suma\n");
         }
-        resultado = CalcualdoraCalcular(calculadora, "2+4");
-        printf("El resultado de 2+4 es: %i\n", resultado);
+        resultado = CalcualdoraCalcular(calculadora, suma);
+        printf("El resultado de %s es: %i\n\n", suma, resultado);
+
+        resultado = 0;
+
+        exito = CalculadoraAnadirOperacion(calculadora, operador_resta, OperacionResta);
+        if (!exito) {
+            printf("ERROR al añadir la operacion Resta\n");
+        }
+        resultado = CalcualdoraCalcular(calculadora, resta);
+        printf("El resultado de %s es: %i\n\n", resta, resultado);
+
+        resultado = 0;
+
+        exito = CalculadoraAnadirOperacion(calculadora, operador_producto, OperacionProducto);
+        if (!exito) {
+            printf("ERROR al añadir la operacion Producto\n");
+        }
+        resultado = CalcualdoraCalcular(calculadora, producto);
+        printf("El resultado de %s es: %i\n\n", producto, resultado);
+
+        exito = CalculadoraAnadirOperacion(calculadora, operador_cociente, OperacionDivision);
+        if (!exito) {
+            printf("ERROR al añadir la operacion Division\n");
+        }
+        resultado = CalcualdoraCalcular(calculadora, division);
+        printf("El resultado de %s es: %i\n\n", division, resultado);
+
     } else {
-        printf("ERROR");
+        printf("ERROR al crear la calculadora");
     }
 
     return 0;

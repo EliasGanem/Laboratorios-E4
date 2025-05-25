@@ -109,8 +109,8 @@ int CalcualdoraCalcular(calculadora_p calculadora, const char * expresion) {
     }
 
     for (int i = 0; i < strlen(expresion); i++) {
-        if (expresion[i] < 0 || expresion[i] > 9) {
-            operador = expresion[i + 1];
+        if (expresion[i] < '0' || expresion[i] > '9') {
+            operador = expresion[i];
             a = atoi(expresion);
             b = atoi(expresion + i + 1);
             break;
@@ -129,7 +129,7 @@ int OperacionSuma(int a, int b) {
     return (a + b);
 }
 
-int OperacionREsta(int a, int b) {
+int OperacionResta(int a, int b) {
     return (a - b);
 }
 
