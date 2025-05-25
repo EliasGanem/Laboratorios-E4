@@ -114,33 +114,36 @@ int main(void) {
         if (!exito) {
             printf("ERROR al añadir la operacion Suma\n");
         }
-        resultado = CalcualdoraCalcular(calculadora, suma);
-        printf("El resultado de %s es: %i\n\n", suma, resultado);
-
-        resultado = 0;
 
         exito = CalculadoraAnadirOperacion(calculadora, operador_resta, OperacionResta);
         if (!exito) {
             printf("ERROR al añadir la operacion Resta\n");
         }
-        resultado = CalcualdoraCalcular(calculadora, resta);
-        printf("El resultado de %s es: %i\n\n", resta, resultado);
-
-        resultado = 0;
 
         exito = CalculadoraAnadirOperacion(calculadora, operador_producto, OperacionProducto);
         if (!exito) {
             printf("ERROR al añadir la operacion Producto\n");
         }
-        resultado = CalcualdoraCalcular(calculadora, producto);
-        printf("El resultado de %s es: %i\n\n", producto, resultado);
 
         exito = CalculadoraAnadirOperacion(calculadora, operador_cociente, OperacionDivision);
         if (!exito) {
             printf("ERROR al añadir la operacion Division\n");
         }
+
+        resultado = CalcualdoraCalcular(calculadora, suma);
+        printf("El resultado de %s es: %i\n", suma, resultado);
+
+        resultado = 0;
+        resultado = CalcualdoraCalcular(calculadora, resta);
+        printf("El resultado de %s es: %i\n", resta, resultado);
+
+        resultado = 0;
+        resultado = CalcualdoraCalcular(calculadora, producto);
+        printf("El resultado de %s es: %i\n", producto, resultado);
+
+        resultado = 0;
         resultado = CalcualdoraCalcular(calculadora, division);
-        printf("El resultado de %s es: %i\n\n", division, resultado);
+        printf("El resultado de %s es: %i\n", division, resultado);
 
     } else {
         printf("ERROR al crear la calculadora");
