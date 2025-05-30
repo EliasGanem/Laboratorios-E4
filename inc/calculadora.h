@@ -42,7 +42,7 @@ extern "C" {
 typedef struct calculadora_s * calculadora_p;
 
 //! Interfase para la caculadora
-typedef int (*funcion_operacion_p)(int, int);
+typedef int (*funcion_calculadora_p)(int, int);
 
 /* === Public variable declarations ================================================================================ */
 
@@ -51,7 +51,8 @@ typedef int (*funcion_operacion_p)(int, int);
 /**
  * @brief Funcion para crear una calculadora
  *
- * @return calculadora_p referencia al objeto calculadora creado
+ * @return Devuele calculadora_p que es una referencia al objeto calculadora creado, en caso de no poder crearlo
+ * devuelve NULL
  */
 calculadora_p CalculadoraCrear(void);
 
@@ -64,7 +65,7 @@ calculadora_p CalculadoraCrear(void);
  * @return bool devuelve true si se añadió la operación, y false si la operacion ya esta o los argumentos son
  * incorrectos
  */
-bool CalculadoraAnadirOperacion(calculadora_p calcualdora, char operador, funcion_operacion_p funcion);
+bool CalculadoraAnadirOperacion(calculadora_p calcualdora, char operador, funcion_calculadora_p funcion);
 
 /**
  * @brief Realiza el calculo con una cadena de caracteres
@@ -76,22 +77,22 @@ bool CalculadoraAnadirOperacion(calculadora_p calcualdora, char operador, funcio
 int CalcualdoraCalcular(calculadora_p calculadora, const char * expresion);
 
 /**
- * @brief Funcion Operacion suma que debe ser agreaga a la calculadora
+ * @brief Funcion que implementa la suma, debe ser agreaga a la calculadora
  *
- * @param a operando 1
- * @param b operando 2
+ * @param operando1 operando 1
+ * @param operando2 operando 2
  * @return int resultado de la suma
  */
-int OperacionSuma(int a, int b);
+int OperacionSuma(int operando1, int operando2);
 
 /**
- * @brief Funcion Operacion suma que debe ser agreaga a la calculadora
+ * @brief Funcion que implementa la resta, debe ser agreaga a la calculadora
  *
- * @param a operando 1
- * @param b operando 2
+ * @param operando1 operando 1
+ * @param operando2 operando 2
  * @return int resultado de la resta
  */
-int OperacionResta(int a, int b);
+int OperacionResta(int operando1, int operamdo2);
 
 /* === End of conditional blocks =================================================================================== */
 
