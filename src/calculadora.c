@@ -40,14 +40,14 @@ SPDX-License-Identifier: MIT
 #endif
 /* === Private data type declarations ============================================================================== */
 
-//! Puntero a una operacion de una lista enlazada simple
+//! Puntero a una operación de una lista enlazada simple
 typedef struct operacion_s * operacion_p;
 
-//! Declaracion de una operacion perteneciente a un lista enlazada simple
+//! Declaración de una operación perteneciente a un lista enlazada simple
 struct operacion_s {
-    char operador;               //!< caracter que representa a la operacion
-    funcion_operacion_p funcion; //!< funcion que hace la operacion
-    operacion_p siguiente;       //!< puntero a la siguiente operacion en la lista
+    char operador;                 //!< caracter que representa a la operación
+    funcion_calculadora_p funcion; //!< función que implementa la operación
+    operacion_p siguiente;         //!< puntero a la siguiente operación en la lista
 #ifndef USAR_MEMORIA_DINAMICA
     bool ocupado; //!< en caso de no usar memoria dinamica indica si el espacio de memoria esta ocupado
 #endif
@@ -64,16 +64,17 @@ struct calculadora_s {
 /* === Private function declarations =============================================================================== */
 
 /**
- * @brief Funcion para buscar si la operacion ya exite  en la calcuadora
+ * @brief Función que busca si la operación fue agregada a la calcuadora
  *
  * @param self calculadora
- * @param operador operador de la operacion que se busca
+ * @param operador operador de la operación que se busca
  * @return retorna un puntero al elemento de la lista enlazada que se buscaba, si no se encontró devuelve NULL
  */
 static operacion_p BuscarOperacion(calculadora_p self, char operador);
 
+#ifndef USAR_MEMORIA_DINAMICA
 /**
- * @brief Funcion para crear referencias de una calculado en caso de no usar memoria dinamica
+ * @brief Funcion para crear referencias de una calculado en caso de no usar memoria dinámica
  *
  * @return retorna la referencia a la calculadora creada, en caso de no ser posible devuelve NULL
  */
@@ -85,6 +86,7 @@ static calculadora_p CalculadoraCrearInstancia();
  * @return retorna la referencia a la operacion creada, en caso de no ser posible devuelve NULL
  */
 static operacion_p OperacionesCrearInstancia();
+#endif
 
 /* === Private variable definitions ================================================================================ */
 
@@ -157,7 +159,7 @@ calculadora_p CalculadoraCrear(void) {
     return self;
 }
 
-bool CalculadoraAnadirOperacion(calculadora_p calcualdora, char operador, funcion_operacion_p funcion) {
+bool CalculadoraAnadirOperacion(calculadora_p calcualdora, char operador, funcion_calculadora_p funcion) {
 
     if (!calcualdora || !funcion || BuscarOperacion(calcualdora, operador)) {
         return false;

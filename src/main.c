@@ -33,8 +33,22 @@ SPDX-License-Identifier: MIT
 
 /* === Private function declarations =============================================================================== */
 
+/**
+ * @brief Funcion que implementa el producto
+ *
+ * @param operando1 operando 1
+ * @param opernado2 operando 2
+ * @return int resultado del producto de los operandos 1 y 2
+ */
 static int OperacionProducto(int operando1, int opernado2);
 
+/**
+ * @brief Funcion que implementa la división
+ *
+ * @param operando1 operando 1
+ * @param opernado2 operando 2
+ * @return int resultado del cociente entre el operando 1 y el operando 2
+ */
 static int OperacionDivision(int operando1, int opernado2);
 
 /* === Private variable definitions ================================================================================ */
@@ -55,7 +69,7 @@ static int OperacionDivision(int a, int b) {
 int main(void) {
     char cadena[100];
     int resultado;
-    bool exito = false;
+    bool operacion_agregada = false;
     char suma[4] = "2+5", resta[] = "2-4", producto[] = "3*15", division[] = "10/2";
     char operador_suma = '+', operador_resta = '-', operador_producto = '*', operador_cociente = '/';
 
@@ -110,23 +124,23 @@ int main(void) {
 
     calculadora_p calculadora = CalculadoraCrear();
     if (calculadora) {
-        exito = CalculadoraAnadirOperacion(calculadora, operador_suma, OperacionSuma);
-        if (!exito) {
+        operacion_agregada = CalculadoraAnadirOperacion(calculadora, operador_suma, OperacionSuma);
+        if (!operacion_agregada) {
             printf("ERROR al añadir la operacion Suma\n");
         }
 
-        exito = CalculadoraAnadirOperacion(calculadora, operador_resta, OperacionResta);
-        if (!exito) {
+        operacion_agregada = CalculadoraAnadirOperacion(calculadora, operador_resta, OperacionResta);
+        if (!operacion_agregada) {
             printf("ERROR al añadir la operacion Resta\n");
         }
 
-        exito = CalculadoraAnadirOperacion(calculadora, operador_producto, OperacionProducto);
-        if (!exito) {
+        operacion_agregada = CalculadoraAnadirOperacion(calculadora, operador_producto, OperacionProducto);
+        if (!operacion_agregada) {
             printf("ERROR al añadir la operacion Producto\n");
         }
 
-        exito = CalculadoraAnadirOperacion(calculadora, operador_cociente, OperacionDivision);
-        if (!exito) {
+        operacion_agregada = CalculadoraAnadirOperacion(calculadora, operador_cociente, OperacionDivision);
+        if (!operacion_agregada) {
             printf("ERROR al añadir la operacion Division\n");
         }
 
